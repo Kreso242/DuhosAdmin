@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#143F61</color>
+    <color name="colorPrimaryDark">#143F61</color>
+    <color name="colorAccent">#143F61</color>
+    <color name="grey">#f9f9f9</color>
+    <color name="darkGrey">#EDEDED</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="duhosPlava">#143F61</color>
+    <color name="shimmer_bg">#dddddd</color>
+    <color name="greyText">#6A6A6A</color>
+    <color name="background">#FAFDFF</color>
+    <color name="active">#143F61</color>
+    <color name="notactive">#899FB0</color>
+
+</resources>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MolitvaFragment"
+    android:background="#FAFDFF">
+
+<RelativeLayout
+    android:id="@+id/icons"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp">
+    <ImageView
+        android:id="@+id/opceMolitveIcon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_opcemolitveno"
+        android:layout_toRightOf="@+id/poboznostiIcon"
+        android:layout_margin="10dp"></ImageView>
+    <ImageView
+        android:id="@+id/marijanskeMolitveIcon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_blazenadjevicamarijano"
+        android:layout_toRightOf="@+id/opceMolitveIcon"
+        android:layout_margin="10dp"></ImageView>
+    <ImageView
+        android:id="@+id/nadahnucaIcon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_nadahnucano"
+        android:layout_margin="10dp"></ImageView>
+    <ImageView
+        android:id="@+id/poboznostiIcon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_poboznostino"
+        android:layout_toRightOf="@+id/nadahnucaIcon"
+        android:layout_margin="10dp"></ImageView>
+</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/editTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:background="#FAFDFF"
+        android:layout_above="@+id/objaviButton"
+        android:layout_below="@+id/icons">
+        <EditText
+            android:id="@+id/editTextNazivMolitve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/no_active_shape"
+            android:hint="Naziv molitve"
+            android:singleLine="true"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="16sp"
+            ></EditText>
+
+        <EditText
+            android:id="@+id/editTextDatumMolitve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextNaziv"
+            android:background="@drawable/no_active_shape"
+            android:hint="Današnji datum (DD/MM/GGGG)"
+            android:singleLine="true"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"
+            ></EditText>
+
+        <EditText
+            android:id="@+id/editTextTekstMolitve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextNaziv"
+            android:background="@drawable/no_active_shape"
+            android:hint="Tekst"
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:layout_marginBottom="5dp"></EditText>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/objaviButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_buttonobjavi"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#80FFFFFF"
+        android:layout_marginBottom="20dp"></ImageButton>
+
+</RelativeLayout>

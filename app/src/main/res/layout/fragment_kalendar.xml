@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".KalendarFragment"
+    android:background="#FAFDFF">
+
+    <LinearLayout
+        android:id="@+id/editTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:background="#FAFDFF"
+        android:layout_above="@+id/objaviButton">
+        <EditText
+            android:id="@+id/editTextNaziv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/no_active_shape"
+            android:hint="Naziv događaja"
+            android:singleLine="true"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="16sp"></EditText>
+
+        <EditText
+            android:id="@+id/editTextDatum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextNaziv"
+            android:background="@drawable/no_active_shape"
+            android:hint="Datum događaja (DD/MM/GGGG)"
+            android:singleLine="true"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"></EditText>
+
+        <EditText
+            android:id="@+id/editTextOpis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextNaziv"
+            android:background="@drawable/no_active_shape"
+            android:hint="Opis događaja"
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:textSize="16sp"
+            android:gravity="top"></EditText>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/objaviButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_buttonobjavi"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#80FFFFFF"
+        android:layout_marginBottom="20dp"></ImageButton>
+
+</RelativeLayout>

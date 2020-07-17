@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PrijavaFragment"
+    android:background="#FAFDFF">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/prijaviSeButton">
+    <LinearLayout
+        android:id="@+id/editTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:background="#FAFDFF">
+        <EditText
+            android:id="@+id/editTextUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_user"
+            android:drawablePadding="10dp"
+            android:background="@drawable/no_active_shape"
+            android:hint="Korisnički ID"
+            android:singleLine="true"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="16sp"
+            ></EditText>
+
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextUser"
+            android:drawableLeft="@drawable/ic_password"
+            android:drawablePadding="10dp"
+            android:background="@drawable/no_active_shape"
+            android:hint="Lozinka"
+            android:singleLine="true"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:inputType="textPassword"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="16sp"
+            ></EditText>
+    </LinearLayout>
+</RelativeLayout>
+    <ImageButton
+        android:id="@+id/prijaviSeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_prijavabutton"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#80FFFFFF"
+        android:layout_marginBottom="20dp"></ImageButton>
+
+</RelativeLayout>

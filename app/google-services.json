@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "745426644244",
+    "firebase_url": "https://duhos-cce4e.firebaseio.com",
+    "project_id": "duhos-cce4e",
+    "storage_bucket": "duhos-cce4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745426644244:android:f4fec7045597255f056601",
+        "android_client_info": {
+          "package_name": "com.example.duhosadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745426644244-l18as8ns3prcp7tlvk9c6nol0610k1ou.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.duhosadmin",
+            "certificate_hash": "b9a05c3c84d8f679f418d795485fd3a321b664e7"
+          }
+        },
+        {
+          "client_id": "745426644244-loc1fntsv83h03tu5sc3uoi0brumk90t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7EhDwTxthRht7vEu_OgZh21eKs3l-PzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745426644244-loc1fntsv83h03tu5sc3uoi0brumk90t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745426644244:android:eccc8fd58081d639056601",
+        "android_client_info": {
+          "package_name": "com.example.duhosii"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745426644244-36c18f0liv1d89dsmgqdafp6r24klu13.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.duhosii",
+            "certificate_hash": "b9a05c3c84d8f679f418d795485fd3a321b664e7"
+          }
+        },
+        {
+          "client_id": "745426644244-pasih8ctk3nbkumfqcnafl0kctu58dek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.duhosii",
+            "certificate_hash": "e6c47e90af682c15f483a8a8969357248bc4e79d"
+          }
+        },
+        {
+          "client_id": "745426644244-loc1fntsv83h03tu5sc3uoi0brumk90t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7EhDwTxthRht7vEu_OgZh21eKs3l-PzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745426644244-loc1fntsv83h03tu5sc3uoi0brumk90t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/toolBar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
+
+    <ImageView
+        android:id="@+id/prijavaImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_prijavanaslov"
+        android:layout_centerHorizontal="true"
+        android:background="@color/background"/>
+
+    <ImageButton
+        android:id="@+id/idiNatrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_backbutton"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:onClick="idiNatrag"
+        android:background="@color/background"/>
+</RelativeLayout>
