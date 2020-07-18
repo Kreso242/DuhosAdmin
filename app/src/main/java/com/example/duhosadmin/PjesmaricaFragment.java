@@ -31,7 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -45,8 +47,12 @@ public class PjesmaricaFragment extends Fragment {
     EditText editTextLinkZaAkorde;
     EditText editTextTesktPjesme;
     DatabaseReference databaseReference;
-    private int idNumber;
-
+    private String idNumberString;
+    private int idNumberInt;
+    private List<String> listaNaslova=new ArrayList<>();
+    private List<String> listaIzvodjaca=new ArrayList<>();
+    private boolean vecPostojiPjesmaFlag=false;
+    private int brojNaslova;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
@@ -79,9 +85,23 @@ public class PjesmaricaFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                         if(snapshot.exists()) {
-                            idNumber= (int) dataSnapshot.getChildrenCount();
+                            idNumberString= snapshot.getKey();
+                            idNumberInt=Integer.parseInt(idNumberString);
+                            idNumberInt++;
+
+                            if(snapshot.child("Naslov").getValue()==null || snapshot.child("Izvođač").getValue()==null){
+                            }
+                            else{
+                                final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase();
+                                final String izvodjac = snapshot.child("Izvođač").getValue().toString().toLowerCase();
+                                listaNaslova.add(naslov);
+                                listaIzvodjaca.add(izvodjac);
+                            }
+
                         }
+
                     }
+                    brojNaslova=listaNaslova.size();
                 }
 
                 @Override
@@ -89,6 +109,8 @@ public class PjesmaricaFragment extends Fragment {
                     Log.w(TAG, "Greška u čitanju iz baze podataka", databaseError.toException());
                 }
             });
+
+
             editTextNazivPjesme = pjesmaricaFragmentView.findViewById(R.id.editTextNazivPjesme);
             editTextIzvodjac = pjesmaricaFragmentView.findViewById(R.id.editTextIzvodjac);
             editTextLinkZaAkorde = pjesmaricaFragmentView.findViewById(R.id.editTextLinkZaAkorde);
@@ -100,16 +122,36 @@ public class PjesmaricaFragment extends Fragment {
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (editTextNazivPjesme.length() == 0 || editTextIzvodjac.length() == 0 || editTextLinkZaAkorde.length() == 0 || editTextTesktPjesme.length() == 0) {
-                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Naslov").setValue(editTextNazivPjesme.getText().toString());
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Izvođač").setValue(editTextIzvodjac.getText().toString());
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Link").setValue(editTextLinkZaAkorde.getText().toString());
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Tekst").setValue(editTextTesktPjesme.getText().toString());
+
+                    if(editTextIzvodjac.length()==0)
+                        editTextIzvodjac.setText("Nepoznat");
+
+                    String naslov=editTextNazivPjesme.getText().toString().toLowerCase();
+                    String izvodjac=editTextIzvodjac.getText().toString().toLowerCase();
+                    for(int i=0; i<brojNaslova;i++){
+                        if(listaNaslova.get(i).equals(naslov) && listaIzvodjaca.get(i).equals(izvodjac)){
+                            vecPostojiPjesmaFlag=true;
+                        }
+                    }
+
+                    if (editTextNazivPjesme.length() == 0  || editTextLinkZaAkorde.length() == 0 || editTextTesktPjesme.length() == 0) {
+                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja! Jedino izvođač može ostati nepoznat! ", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else if(vecPostojiPjesmaFlag){
+                        Toast.makeText(getContext(), "Navedena pjesma već postoji u bazi!", Toast.LENGTH_SHORT).show();
+                        vecPostojiPjesmaFlag=false;
+
+                    }
+                    else {
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Naslov").setValue(editTextNazivPjesme.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Izvođač").setValue(editTextIzvodjac.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Link").setValue(editTextLinkZaAkorde.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Tekst").setValue(editTextTesktPjesme.getText().toString());
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
+
                 }
             });
             return pjesmaricaFragmentView;

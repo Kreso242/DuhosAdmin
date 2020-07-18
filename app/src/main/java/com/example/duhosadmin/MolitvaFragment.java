@@ -49,7 +49,8 @@ public class MolitvaFragment extends Fragment {
     EditText editTextNazivMolitve;
     EditText editTextTekstMolitve;
     DatabaseReference marijanskeReference,opceReference,nadahnucaReference,poboznostiReference;
-    private int idNumberPoboznosti,idNumberOpce,idNumberMarijanske,idNumberNadahnuca;
+    private int idNumberOpceInt,idNumberMarijanskeInt,idNumberPoboznostiInt,idNumberNadahnucaInt;
+    private String idNumberOpceString,idNumberMarijanskeString,idNumberPoboznostiString,idNumberNadahnucaString;
     String date;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
@@ -93,24 +94,24 @@ public class MolitvaFragment extends Fragment {
                         Toast.makeText(getContext(), "Odaberi kategoriju molitve!", Toast.LENGTH_SHORT).show();
                     else {
                         if(opceMolitvaFlag) {
-                            opceReference.child(String.valueOf(idNumberOpce + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            opceReference.child(String.valueOf(idNumberOpce + 1)).child("Datum").setValue(date.toString());
-                            opceReference.child(String.valueOf(idNumberOpce + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            opceReference.child(String.valueOf(idNumberOpceInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
+                            opceReference.child(String.valueOf(idNumberOpceInt)).child("Datum").setValue(date.toString());
+                            opceReference.child(String.valueOf(idNumberOpceInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
                         else if(marijanskaMolitvaFlag) {
-                            marijanskeReference.child(String.valueOf(idNumberMarijanske + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            marijanskeReference.child(String.valueOf(idNumberMarijanske + 1)).child("Datum").setValue(date.toString());
-                            marijanskeReference.child(String.valueOf(idNumberMarijanske + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
+                            marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).child("Datum").setValue(date.toString());
+                            marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
                         else if(nadahnucaFlag) {
-                            nadahnucaReference.child(String.valueOf(idNumberNadahnuca + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            nadahnucaReference.child(String.valueOf(idNumberNadahnuca + 1)).child("Datum").setValue(date.toString());
-                            nadahnucaReference.child(String.valueOf(idNumberNadahnuca + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
+                            nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).child("Datum").setValue(date.toString());
+                            nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
                         else if(poboznostiFlag) {
-                            poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Datum").setValue(date.toString());
-                            poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            poboznostiReference.child(String.valueOf(idNumberPoboznostiInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
+                            poboznostiReference.child(String.valueOf(idNumberPoboznostiInt)).child("Datum").setValue(date.toString());
+                            poboznostiReference.child(String.valueOf(idNumberPoboznostiInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
@@ -179,7 +180,9 @@ public class MolitvaFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     if(snapshot.exists()) {
-                        idNumberOpce= (int) dataSnapshot.getChildrenCount();
+                        idNumberOpceString= snapshot.getKey();
+                        idNumberOpceInt=Integer.parseInt(idNumberOpceString);
+                        idNumberOpceInt++;
                     }
                 }
             }
@@ -196,7 +199,9 @@ public class MolitvaFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     if(snapshot.exists()) {
-                        idNumberMarijanske= (int) dataSnapshot.getChildrenCount();
+                        idNumberMarijanskeString= snapshot.getKey();
+                        idNumberMarijanskeInt=Integer.parseInt(idNumberMarijanskeString);
+                        idNumberMarijanskeInt++;
                     }
                 }
             }
@@ -213,7 +218,9 @@ public class MolitvaFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     if(snapshot.exists()) {
-                        idNumberNadahnuca= (int) dataSnapshot.getChildrenCount();
+                        idNumberNadahnucaString= snapshot.getKey();
+                        idNumberNadahnucaInt=Integer.parseInt(idNumberNadahnucaString);
+                        idNumberNadahnucaInt++;
                     }
                 }
             }
@@ -230,7 +237,9 @@ public class MolitvaFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     if(snapshot.exists()) {
-                        idNumberPoboznosti= (int) dataSnapshot.getChildrenCount();
+                        idNumberPoboznostiString= snapshot.getKey();
+                        idNumberPoboznostiInt=Integer.parseInt(idNumberPoboznostiString);
+                        idNumberPoboznostiInt++;
                     }
                 }
             }

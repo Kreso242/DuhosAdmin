@@ -41,8 +41,8 @@ public class PitanjaFragment extends Fragment {
     EditText editTextOdgovor;
 
     DatabaseReference databaseReference;
-    private int idNumber;
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private String idNumberString;
+    private int idNumberInt;    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,7 +73,9 @@ public class PitanjaFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                         if(snapshot.exists()) {
-                            idNumber= (int) dataSnapshot.getChildrenCount();
+                            idNumberString= snapshot.getKey();
+                            idNumberInt=Integer.parseInt(idNumberString);
+                            idNumberInt++;
                         }
                     }
                 }
@@ -96,8 +98,8 @@ public class PitanjaFragment extends Fragment {
                     if (editTextPitanje.length() == 0 || editTextOdgovor.length() == 0 ) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Pitanje").setValue(editTextPitanje.getText().toString());
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Odgovor").setValue(editTextOdgovor.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Pitanje").setValue(editTextPitanje.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Odgovor").setValue(editTextOdgovor.getText().toString());
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }

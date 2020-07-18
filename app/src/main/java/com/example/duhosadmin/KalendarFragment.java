@@ -47,7 +47,8 @@ public class KalendarFragment extends Fragment {
     EditText editTextDatum;
     EditText editTextOpis;
     DatabaseReference databaseReference;
-    private int idNumber;
+    private String idNumberString;
+    private int idNumberInt;
     Calendar myCalendar=null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -80,7 +81,9 @@ public class KalendarFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                         if(snapshot.exists()) {
-                            idNumber= (int) dataSnapshot.getChildrenCount();
+                            idNumberString= snapshot.getKey();
+                            idNumberInt=Integer.parseInt(idNumberString);
+                            idNumberInt++;
                         }
                     }
                 }
@@ -122,9 +125,9 @@ public class KalendarFragment extends Fragment {
                     if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextOpis.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Naslov").setValue(editTextNaziv.getText().toString());
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Datum").setValue(editTextDatum.getText().toString());
-                        databaseReference.child(String.valueOf(idNumber+1)).child("Opis").setValue(editTextOpis.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Naslov").setValue(editTextNaziv.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Datum").setValue(editTextDatum.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Opis").setValue(editTextOpis.getText().toString());
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
