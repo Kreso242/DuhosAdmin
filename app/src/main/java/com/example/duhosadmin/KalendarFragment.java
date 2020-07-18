@@ -1,5 +1,6 @@
 package com.example.duhosadmin;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,6 +32,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class KalendarFragment extends Fragment {
@@ -42,6 +48,7 @@ public class KalendarFragment extends Fragment {
     EditText editTextOpis;
     DatabaseReference databaseReference;
     private int idNumber;
+    Calendar myCalendar=null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
@@ -87,6 +94,25 @@ public class KalendarFragment extends Fragment {
             editTextDatum = kalendarFragmentView.findViewById(R.id.editTextDatum);
             editTextOpis = kalendarFragmentView.findViewById(R.id.editTextOpis);
 
+            myCalendar = Calendar.getInstance();
+             final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
+                    // TODO Auto-generated method stub
+                    myCalendar.set(Calendar.YEAR, year);
+                    myCalendar.set(Calendar.MONTH, monthOfYear);
+                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateLabel();
+                }
+
+            };
+            editTextDatum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new DatePickerDialog(getContext(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }
+            });
+
             objaviButton = kalendarFragmentView.findViewById(R.id.objaviButton);
             onTextChange();
 
@@ -100,7 +126,7 @@ public class KalendarFragment extends Fragment {
                         databaseReference.child(String.valueOf(idNumber+1)).child("Datum").setValue(editTextDatum.getText().toString());
                         databaseReference.child(String.valueOf(idNumber+1)).child("Opis").setValue(editTextOpis.getText().toString());
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new KreirajFragment()).addToBackStack("kreirajFragment").commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).addToBackStack("vratiSeFragment").commit();
                     }
                 }
             });
@@ -119,6 +145,12 @@ public class KalendarFragment extends Fragment {
         }
     }
 
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat);
+
+        editTextDatum.setText(simpleDateFormat.format(myCalendar.getTime()));
+    }
     private void onTextChange() {
         editTextNaziv.addTextChangedListener(new TextWatcher() {
             @Override
@@ -127,14 +159,15 @@ public class KalendarFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (s.length() != 0) {
                     editTextNaziv.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
                 } else {
                     editTextNaziv.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
                 }
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
         editTextDatum.addTextChangedListener(new TextWatcher() {
@@ -144,15 +177,16 @@ public class KalendarFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (s.length() != 0) {
                     editTextDatum.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
                 } else {
                     editTextDatum.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
         editTextOpis.addTextChangedListener(new TextWatcher() {

@@ -30,6 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MolitvaFragment extends Fragment {
@@ -43,10 +47,10 @@ public class MolitvaFragment extends Fragment {
     private boolean nadahnucaFlag=false;
     private boolean poboznostiFlag=false;
     EditText editTextNazivMolitve;
-    EditText editTextDatumMolitve;
     EditText editTextTekstMolitve;
     DatabaseReference marijanskeReference,opceReference,nadahnucaReference,poboznostiReference;
     private int idNumberPoboznosti,idNumberOpce,idNumberMarijanske,idNumberNadahnuca;
+    String date;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
@@ -72,15 +76,17 @@ public class MolitvaFragment extends Fragment {
             setUpIcons();
             getReference();
             editTextNazivMolitve = molitvaFragmentView.findViewById(R.id.editTextNazivMolitve);
-            editTextDatumMolitve = molitvaFragmentView.findViewById(R.id.editTextDatumMolitve);
             editTextTekstMolitve = molitvaFragmentView.findViewById(R.id.editTextTekstMolitve);
+
+            date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+
 
             objaviButton = molitvaFragmentView.findViewById(R.id.objaviButton);
             onTextChange();
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (editTextNazivMolitve.length() == 0 || editTextDatumMolitve.length() == 0 || editTextTekstMolitve.length() == 0) {
+                    if (editTextNazivMolitve.length() == 0 || editTextTekstMolitve.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     }
                     else if(!opceMolitvaFlag && !marijanskaMolitvaFlag && !nadahnucaFlag && !poboznostiFlag)
@@ -88,25 +94,25 @@ public class MolitvaFragment extends Fragment {
                     else {
                         if(opceMolitvaFlag) {
                             opceReference.child(String.valueOf(idNumberOpce + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            opceReference.child(String.valueOf(idNumberOpce + 1)).child("Datum").setValue(editTextDatumMolitve.getText().toString());
+                            opceReference.child(String.valueOf(idNumberOpce + 1)).child("Datum").setValue(date.toString());
                             opceReference.child(String.valueOf(idNumberOpce + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
                         else if(marijanskaMolitvaFlag) {
                             marijanskeReference.child(String.valueOf(idNumberMarijanske + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            marijanskeReference.child(String.valueOf(idNumberMarijanske + 1)).child("Datum").setValue(editTextDatumMolitve.getText().toString());
+                            marijanskeReference.child(String.valueOf(idNumberMarijanske + 1)).child("Datum").setValue(date.toString());
                             marijanskeReference.child(String.valueOf(idNumberMarijanske + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
                         else if(nadahnucaFlag) {
                             nadahnucaReference.child(String.valueOf(idNumberNadahnuca + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            nadahnucaReference.child(String.valueOf(idNumberNadahnuca + 1)).child("Datum").setValue(editTextDatumMolitve.getText().toString());
+                            nadahnucaReference.child(String.valueOf(idNumberNadahnuca + 1)).child("Datum").setValue(date.toString());
                             nadahnucaReference.child(String.valueOf(idNumberNadahnuca + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
                         else if(poboznostiFlag) {
                             poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Datum").setValue(editTextDatumMolitve.getText().toString());
+                            poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Datum").setValue(date.toString());
                             poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new KreirajFragment()).addToBackStack("kreirajFragment").commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).addToBackStack("vratiSeFragment").commit();
                     }
                 }
             });
@@ -145,24 +151,7 @@ public class MolitvaFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-        editTextDatumMolitve.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0) {
-                    editTextDatumMolitve.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
-                } else {
-                    editTextDatumMolitve.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
         editTextTekstMolitve.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
