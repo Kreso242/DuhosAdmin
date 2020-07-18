@@ -50,7 +50,6 @@ public class PjesmaricaFragment extends Fragment {
     private String idNumberString;
     private int idNumberInt;
     private List<String> listaNaslova=new ArrayList<>();
-    private List<String> listaIzvodjaca=new ArrayList<>();
     private boolean vecPostojiPjesmaFlag=false;
     private int brojNaslova;
 
@@ -89,13 +88,11 @@ public class PjesmaricaFragment extends Fragment {
                             idNumberInt=Integer.parseInt(idNumberString);
                             idNumberInt++;
 
-                            if(snapshot.child("Naslov").getValue()==null || snapshot.child("Izvođač").getValue()==null){
+                            if(snapshot.child("Naslov").getValue()==null ){
                             }
                             else{
                                 final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase();
-                                final String izvodjac = snapshot.child("Izvođač").getValue().toString().toLowerCase();
                                 listaNaslova.add(naslov);
-                                listaIzvodjaca.add(izvodjac);
                             }
 
                         }
@@ -129,7 +126,7 @@ public class PjesmaricaFragment extends Fragment {
                     String naslov=editTextNazivPjesme.getText().toString().toLowerCase();
                     String izvodjac=editTextIzvodjac.getText().toString().toLowerCase();
                     for(int i=0; i<brojNaslova;i++){
-                        if(listaNaslova.get(i).equals(naslov) && listaIzvodjaca.get(i).equals(izvodjac)){
+                        if(listaNaslova.get(i).equals(naslov) ){
                             vecPostojiPjesmaFlag=true;
                         }
                     }
