@@ -106,7 +106,7 @@ public class NovostiFragment extends Fragment {
                         databaseReference.child(String.valueOf(idNumber+1)).child("Link").setValue(editTextLinkNaObjavu.getText().toString());
                         databaseReference.child(String.valueOf(idNumber+1)).child("Sadržaj").setValue(editTextSadrzaj.getText().toString());
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).addToBackStack("vratiSeFragment").commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
                 }
             });

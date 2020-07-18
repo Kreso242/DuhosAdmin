@@ -112,7 +112,7 @@ public class MolitvaFragment extends Fragment {
                             poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Datum").setValue(date.toString());
                             poboznostiReference.child(String.valueOf(idNumberPoboznosti + 1)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
                         }
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).addToBackStack("vratiSeFragment").commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
                 }
             });

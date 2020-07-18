@@ -99,7 +99,7 @@ public class PitanjaFragment extends Fragment {
                         databaseReference.child(String.valueOf(idNumber+1)).child("Pitanje").setValue(editTextPitanje.getText().toString());
                         databaseReference.child(String.valueOf(idNumber+1)).child("Odgovor").setValue(editTextOdgovor.getText().toString());
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).addToBackStack("vratiSeFragment").commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
                 }
             });

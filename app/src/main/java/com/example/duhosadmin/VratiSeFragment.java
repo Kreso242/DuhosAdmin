@@ -31,7 +31,7 @@ public class VratiSeFragment extends Fragment {
         vratiSeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new KreirajFragment()).addToBackStack("kreirajFragment").commit();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             });
         return vratiSeFragmentView;

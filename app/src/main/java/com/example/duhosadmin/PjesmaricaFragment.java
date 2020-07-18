@@ -108,7 +108,7 @@ public class PjesmaricaFragment extends Fragment {
                         databaseReference.child(String.valueOf(idNumber+1)).child("Link").setValue(editTextLinkZaAkorde.getText().toString());
                         databaseReference.child(String.valueOf(idNumber+1)).child("Tekst").setValue(editTextTesktPjesme.getText().toString());
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).addToBackStack("vratiSeFragment").commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
                 }
             });
