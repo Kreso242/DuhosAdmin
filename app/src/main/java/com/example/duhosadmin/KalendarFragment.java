@@ -34,7 +34,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -46,6 +45,8 @@ public class KalendarFragment extends Fragment {
     EditText editTextNaziv;
     EditText editTextDatum;
     EditText editTextOpis;
+    EditText editTextLokacija;
+
     DatabaseReference databaseReference;
     private String idNumberString;
     private int idNumberInt;
@@ -96,6 +97,7 @@ public class KalendarFragment extends Fragment {
             editTextNaziv = kalendarFragmentView.findViewById(R.id.editTextNaziv);
             editTextDatum = kalendarFragmentView.findViewById(R.id.editTextDatum);
             editTextOpis = kalendarFragmentView.findViewById(R.id.editTextOpis);
+            editTextLokacija = kalendarFragmentView.findViewById(R.id.editTextLokacija);
 
             myCalendar = Calendar.getInstance();
              final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -122,12 +124,13 @@ public class KalendarFragment extends Fragment {
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextOpis.length() == 0) {
+                    if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextOpis.length() == 0 || editTextLokacija.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
                         databaseReference.child(String.valueOf(idNumberInt)).child("Naslov").setValue(editTextNaziv.getText().toString());
                         databaseReference.child(String.valueOf(idNumberInt)).child("Datum").setValue(editTextDatum.getText().toString());
                         databaseReference.child(String.valueOf(idNumberInt)).child("Opis").setValue(editTextOpis.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Lokacija").setValue(editTextLokacija.getText().toString());
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
@@ -203,6 +206,25 @@ public class KalendarFragment extends Fragment {
                     editTextOpis.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
                 } else {
                     editTextOpis.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        editTextLokacija.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    editTextLokacija.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
+                } else {
+                    editTextLokacija.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
                 }
             }
 

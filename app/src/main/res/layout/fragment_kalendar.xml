@@ -48,15 +48,29 @@
             android:fontFamily="@font/open_sans_regular"
             android:layout_marginBottom="20dp"
             android:textSize="16sp"></EditText>
-
+        <EditText
+            android:id="@+id/editTextLokacija"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextDatum"
+            android:background="@drawable/no_active_shape"
+            android:hint="Lokacija događaja"
+            android:singleLine="true"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="16sp"></EditText>
         <EditText
             android:id="@+id/editTextOpis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editTextNaziv"
+            android:layout_below="@id/editTextLokacija"
             android:background="@drawable/no_active_shape"
             android:hint="Opis događaja"
-            android:inputType="textCapSentences|textMultiLine"
+            android:inputType="textCapSentences"
             android:padding="15dp"
             android:includeFontPadding="true"
             android:textColor="@color/active"

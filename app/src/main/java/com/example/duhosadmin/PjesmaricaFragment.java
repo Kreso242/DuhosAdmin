@@ -121,7 +121,7 @@ public class PjesmaricaFragment extends Fragment {
                 public void onClick(View v) {
 
                     if(editTextIzvodjac.length()==0)
-                        editTextIzvodjac.setText("Nepoznat");
+                        editTextIzvodjac.setText("Nepoznati izvođač");
 
                     String naslov=editTextNazivPjesme.getText().toString().toLowerCase();
                     String izvodjac=editTextIzvodjac.getText().toString().toLowerCase();
