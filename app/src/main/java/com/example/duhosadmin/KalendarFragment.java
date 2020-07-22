@@ -1,6 +1,7 @@
 package com.example.duhosadmin;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,6 +47,7 @@ public class KalendarFragment extends Fragment {
     private boolean connectionFlag=false;
     EditText editTextNaziv;
     EditText editTextDatum;
+    EditText editTextVrijeme;
     EditText editTextOpis;
     EditText editTextLokacija;
 
@@ -97,6 +100,7 @@ public class KalendarFragment extends Fragment {
             });
             editTextNaziv = kalendarFragmentView.findViewById(R.id.editTextNaziv);
             editTextDatum = kalendarFragmentView.findViewById(R.id.editTextDatum);
+            editTextVrijeme = kalendarFragmentView.findViewById(R.id.editTextVrijeme);
             editTextOpis = kalendarFragmentView.findViewById(R.id.editTextOpis);
             editTextLokacija = kalendarFragmentView.findViewById(R.id.editTextLokacija);
 
@@ -112,24 +116,51 @@ public class KalendarFragment extends Fragment {
                 }
 
             };
+
             editTextDatum.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new DatePickerDialog(getContext(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 }
             });
+            Calendar mcurrentTime = Calendar.getInstance();
+            final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+            final int minute = mcurrentTime.get(Calendar.MINUTE);
+            editTextVrijeme.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TimePickerDialog mTimePicker;
+                    mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            String min=String.valueOf(selectedMinute);
+                            String h=String.valueOf(selectedHour);
 
+                            if(selectedHour<10)
+                                h="0"+h;
+                            if(selectedMinute<10)
+                                min="0"+min;
+
+                            editTextVrijeme.setText(h+":"+min);
+
+                        }
+                    }, hour, minute, true);//Yes 24 hour time
+                    mTimePicker.setTitle("Odaberi vrijeme");
+                    mTimePicker.show();
+                }
+            });
             objaviButton = kalendarFragmentView.findViewById(R.id.objaviButton);
             onTextChange();
 
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextOpis.length() == 0 || editTextLokacija.length() == 0) {
+                    if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextVrijeme.length() == 0 || editTextOpis.length() == 0 || editTextLokacija.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
                         databaseReference.child(String.valueOf(idNumberInt)).child("Naslov").setValue(editTextNaziv.getText().toString());
                         databaseReference.child(String.valueOf(idNumberInt)).child("Datum").setValue(editTextDatum.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).child("Vrijeme").setValue(editTextVrijeme.getText().toString());
                         databaseReference.child(String.valueOf(idNumberInt)).child("Opis").setValue(editTextOpis.getText().toString());
                         databaseReference.child(String.valueOf(idNumberInt)).child("Lokacija").setValue(editTextLokacija.getText().toString());
 

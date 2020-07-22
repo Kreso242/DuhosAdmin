@@ -49,6 +49,23 @@
             android:layout_marginBottom="20dp"
             android:textSize="16sp"></EditText>
         <EditText
+            android:id="@+id/editTextVrijeme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextNaziv"
+            android:background="@drawable/no_active_shape"
+            android:hint="Vrijeme događaja"
+            android:clickable="true"
+            android:focusable="false"
+            android:editable="false"
+            android:padding="15dp"
+            android:includeFontPadding="true"
+            android:textColor="@color/active"
+            android:textColorHint="@color/notactive"
+            android:fontFamily="@font/open_sans_regular"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"></EditText>
+        <EditText
             android:id="@+id/editTextLokacija"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
