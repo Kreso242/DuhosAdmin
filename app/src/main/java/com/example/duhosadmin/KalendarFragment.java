@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -103,7 +104,7 @@ public class KalendarFragment extends Fragment {
              final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
-                    // TODO Auto-generated method stub
+
                     myCalendar.set(Calendar.YEAR, year);
                     myCalendar.set(Calendar.MONTH, monthOfYear);
                     myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -154,8 +155,12 @@ public class KalendarFragment extends Fragment {
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat);
-
-        editTextDatum.setText(simpleDateFormat.format(myCalendar.getTime()));
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,-1);
+        if(!myCalendar.getTime().before(calendar.getTime()))
+            editTextDatum.setText(simpleDateFormat.format(myCalendar.getTime()));
+        else
+            Toast.makeText(getContext(),"Ne možeš upisati datum iz prošlosti!",Toast.LENGTH_SHORT).show();
     }
     private void onTextChange() {
         editTextNaziv.addTextChangedListener(new TextWatcher() {
