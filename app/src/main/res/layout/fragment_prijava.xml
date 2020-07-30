@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:background="#FAFDFF">
+        android:background="#FAFDFF"
+        android:layout_marginTop="20dp">
         <EditText
             android:id="@+id/editTextUser"
             android:layout_width="match_parent"

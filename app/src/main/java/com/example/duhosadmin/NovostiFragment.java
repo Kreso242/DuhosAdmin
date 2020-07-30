@@ -104,10 +104,7 @@ public class NovostiFragment extends Fragment {
                     if (editTextNaslov.length() == 0 || editTextMedij.length() == 0 || editTextLinkNaObjavu.length() == 0 || editTextSadrzaj.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Naslov").setValue(editTextNaslov.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Medij").setValue(editTextMedij.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Link").setValue(editTextLinkNaObjavu.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Sadržaj").setValue(editTextSadrzaj.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(),editTextSadrzaj.getText().toString(),editTextMedij.getText().toString(),editTextLinkNaObjavu.getText().toString()));
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }

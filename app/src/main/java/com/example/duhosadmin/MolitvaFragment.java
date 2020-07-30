@@ -94,24 +94,16 @@ public class MolitvaFragment extends Fragment {
                         Toast.makeText(getContext(), "Odaberi kategoriju molitve!", Toast.LENGTH_SHORT).show();
                     else {
                         if(opceMolitvaFlag) {
-                            opceReference.child(String.valueOf(idNumberOpceInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            opceReference.child(String.valueOf(idNumberOpceInt)).child("Datum").setValue(date.toString());
-                            opceReference.child(String.valueOf(idNumberOpceInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            opceReference.child(String.valueOf(idNumberOpceInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(),date.toString(),editTextTekstMolitve.getText().toString()));
                         }
                         else if(marijanskaMolitvaFlag) {
-                            marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).child("Datum").setValue(date.toString());
-                            marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(),date.toString(),editTextTekstMolitve.getText().toString()));
                         }
                         else if(nadahnucaFlag) {
-                            nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).child("Datum").setValue(date.toString());
-                            nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(),date.toString(),editTextTekstMolitve.getText().toString()));
                         }
                         else if(poboznostiFlag) {
-                            poboznostiReference.child(String.valueOf(idNumberPoboznostiInt)).child("Naziv").setValue(editTextNazivMolitve.getText().toString());
-                            poboznostiReference.child(String.valueOf(idNumberPoboznostiInt)).child("Datum").setValue(date.toString());
-                            poboznostiReference.child(String.valueOf(idNumberPoboznostiInt)).child("Tekst").setValue(editTextTekstMolitve.getText().toString());
+                            poboznostiReference.child(String.valueOf(idNumberPoboznostiInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(),date.toString(),editTextTekstMolitve.getText().toString()));
                         }
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }

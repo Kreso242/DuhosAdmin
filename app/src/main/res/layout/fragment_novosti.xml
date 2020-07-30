@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextNaziv"
             android:background="@drawable/no_active_shape"
-            android:hint="Medij (Facebook, YouTube, Web)"
+            android:hint="Medij (Facebook, YouTube, Instagram, Web)"
             android:singleLine="true"
             android:padding="15dp"
             android:includeFontPadding="true"

@@ -141,10 +141,7 @@ public class PjesmaricaFragment extends Fragment {
 
                     }
                     else {
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Naslov").setValue(editTextNazivPjesme.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Izvođač").setValue(editTextIzvodjac.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Link").setValue(editTextLinkZaAkorde.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Tekst").setValue(editTextTesktPjesme.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(),editTextIzvodjac.getText().toString(),editTextTesktPjesme.getText().toString(),editTextLinkZaAkorde.getText().toString()));
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }

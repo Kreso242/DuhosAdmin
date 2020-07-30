@@ -158,11 +158,8 @@ public class KalendarFragment extends Fragment {
                     if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextVrijeme.length() == 0 || editTextOpis.length() == 0 || editTextLokacija.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Naslov").setValue(editTextNaziv.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Datum").setValue(editTextDatum.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Vrijeme").setValue(editTextVrijeme.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Opis").setValue(editTextOpis.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Lokacija").setValue(editTextLokacija.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Dogadjaj(editTextNaziv.getText().toString(),editTextOpis.getText().toString(),editTextDatum.getText().toString(),editTextVrijeme.getText().toString(),editTextLokacija.getText().toString()));
+
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }

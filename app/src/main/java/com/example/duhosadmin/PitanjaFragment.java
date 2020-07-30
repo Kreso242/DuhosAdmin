@@ -98,8 +98,8 @@ public class PitanjaFragment extends Fragment {
                     if (editTextPitanje.length() == 0 || editTextOdgovor.length() == 0 ) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Pitanje").setValue(editTextPitanje.getText().toString());
-                        databaseReference.child(String.valueOf(idNumberInt)).child("Odgovor").setValue(editTextOdgovor.getText().toString());
+                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pitanja(editTextPitanje.getText().toString(),editTextOdgovor.getText().toString()));
+
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
