@@ -2,6 +2,7 @@ package com.example.duhosadmin;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -21,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -49,7 +51,10 @@ public class PjesmaricaFragment extends Fragment {
     DatabaseReference databaseReference;
     private String idNumberString;
     private int idNumberInt;
+
     private List<String> listaNaslova=new ArrayList<>();
+    private List<Integer> idLista=new ArrayList<>();
+    private int idPostojecePjesme=0;
     private boolean vecPostojiPjesmaFlag=false;
     private int brojNaslova;
 
@@ -88,15 +93,13 @@ public class PjesmaricaFragment extends Fragment {
                             idNumberInt=Integer.parseInt(idNumberString);
                             idNumberInt++;
 
-                            if(snapshot.child("Naslov").getValue()==null ){
-                            }
+                            if(snapshot.child("Naslov").getValue()==null ){ }
                             else{
                                 final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase();
                                 listaNaslova.add(naslov);
+                                idLista.add(idNumberInt-1);
                             }
-
                         }
-
                     }
                     brojNaslova=listaNaslova.size();
                 }
@@ -119,25 +122,45 @@ public class PjesmaricaFragment extends Fragment {
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if(editTextIzvodjac.length()==0)
                         editTextIzvodjac.setText("Nepoznati izvođač");
-
+                    if(editTextLinkZaAkorde.length()==0)
+                        editTextLinkZaAkorde.setText("Link je nedostupan");
                     String naslov=editTextNazivPjesme.getText().toString().toLowerCase();
                     String izvodjac=editTextIzvodjac.getText().toString().toLowerCase();
+                    String link=editTextLinkZaAkorde.getText().toString().toLowerCase();
+                    idPostojecePjesme=0;
                     for(int i=0; i<brojNaslova;i++){
                         if(listaNaslova.get(i).equals(naslov) ){
                             vecPostojiPjesmaFlag=true;
+                            idPostojecePjesme=idLista.get(i);
                         }
                     }
 
-                    if (editTextNazivPjesme.length() == 0  || editTextLinkZaAkorde.length() == 0 || editTextTesktPjesme.length() == 0) {
-                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja! Jedino izvođač može ostati nepoznat! ", Toast.LENGTH_SHORT).show();
+                    if (editTextNazivPjesme.length() == 0  || editTextTesktPjesme.length() == 0) {
+                        Toast.makeText(getContext(), "Unesi podatke u ponuđena polja! Jedino izvođač i link mogu ostati nepoznati! ", Toast.LENGTH_SHORT).show();
                     }
 
                     else if(vecPostojiPjesmaFlag){
-                        Toast.makeText(getContext(), "Navedena pjesma već postoji u bazi!", Toast.LENGTH_SHORT).show();
-                        vecPostojiPjesmaFlag=false;
+
+                        new AlertDialog.Builder(getContext())
+                                .setTitle("Upozorenje")
+                                .setMessage("Unešena pjesma već postoji u bazi! Ukoliko želite izbrisati tu pjesmu te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
+                                .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        databaseReference.child(String.valueOf(idPostojecePjesme)).removeValue();
+                                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(),editTextIzvodjac.getText().toString(),editTextTesktPjesme.getText().toString(),editTextLinkZaAkorde.getText().toString()));
+                                        vecPostojiPjesmaFlag=false;
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                                    }
+                                })
+                                .setNegativeButton("Natrag",null)
+                                .setIcon(R.drawable.duhos_logo)
+                                .show();
+
+
+
 
                     }
                     else {

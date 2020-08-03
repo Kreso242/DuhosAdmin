@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashScreen"
-    android:background="#133550">
+    android:background="#133b63">
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#133550"
+        android:background="#133b63"
         android:src="@drawable/splash">
     </pl.droidsonroids.gif.GifImageView>
 

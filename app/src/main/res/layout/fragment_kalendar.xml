@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/no_active_shape"
             android:hint="Naziv događaja"
+            android:inputType="textCapSentences"
             android:singleLine="true"
             android:padding="15dp"
             android:includeFontPadding="true"

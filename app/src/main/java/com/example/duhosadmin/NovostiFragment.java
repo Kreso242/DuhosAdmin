@@ -1,6 +1,7 @@
 package com.example.duhosadmin;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -20,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -29,6 +31,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -44,6 +49,15 @@ public class NovostiFragment extends Fragment {
     EditText editTextMedij;
     EditText editTextLinkNaObjavu;
     EditText editTextSadrzaj;
+
+    private List<String> listaNaslova=new ArrayList<>();
+    private List<String> listaMedija=new ArrayList<>();
+    private List<String> listaLinkova=new ArrayList<>();
+
+    private List<Integer> idLista=new ArrayList<>();
+    private int idPostojeceNovosti=0;
+    private boolean vecPostojiNovostFlag=false;
+    private int brojNaslova;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
@@ -75,13 +89,25 @@ public class NovostiFragment extends Fragment {
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                        if(snapshot.exists()) {
-                            idNumberString= snapshot.getKey();
-                            idNumberInt=Integer.parseInt(idNumberString);
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                        if (snapshot.exists()) {
+                            idNumberString = snapshot.getKey();
+                            idNumberInt = Integer.parseInt(idNumberString);
                             idNumberInt++;
+                        if (snapshot.child("Naslov").getValue() == null) {
+                        } else {
+                            final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase();
+                            final String medij = snapshot.child("Medij").getValue().toString().toLowerCase();
+                            final String link = snapshot.child("Link").getValue().toString().toLowerCase();
+
+                            listaNaslova.add(naslov);
+                            listaMedija.add(medij);
+                            listaLinkova.add(link);
+                            idLista.add(idNumberInt - 1);
                         }
                     }
+                }
+                    brojNaslova=listaNaslova.size();
                 }
 
                 @Override
@@ -101,9 +127,40 @@ public class NovostiFragment extends Fragment {
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String naslov=editTextNaslov.getText().toString().toLowerCase();
+                    String medij=editTextMedij.getText().toString().toLowerCase();
+                    String link=editTextLinkNaObjavu.getText().toString().toLowerCase();
+
+                    idPostojeceNovosti=0;
+                    for(int i=0; i<brojNaslova;i++){
+                        if(listaNaslova.get(i).equals(naslov) && listaMedija.get(i).equals(medij) && listaLinkova.get(i).equals(link)){
+                            vecPostojiNovostFlag=true;
+                            idPostojeceNovosti=idLista.get(i);
+                        }
+                    }
+
+
                     if (editTextNaslov.length() == 0 || editTextMedij.length() == 0 || editTextLinkNaObjavu.length() == 0 || editTextSadrzaj.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
+                    else if(vecPostojiNovostFlag){
+                        new AlertDialog.Builder(getContext())
+                                .setTitle("Upozorenje")
+                                .setMessage("Unešena novost već postoji u bazi! Ukoliko želite izbrisati tu novost te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
+                                .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        databaseReference.child(String.valueOf(idPostojeceNovosti)).removeValue();
+                                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(),editTextSadrzaj.getText().toString(),editTextMedij.getText().toString(),editTextLinkNaObjavu.getText().toString()));
+                                        vecPostojiNovostFlag=false;
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                                    }
+                                })
+                                .setNegativeButton("Natrag",null)
+                                .setIcon(R.drawable.duhos_logo)
+                                .show();
+                    }
+                    else {
                         databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(),editTextSadrzaj.getText().toString(),editTextMedij.getText().toString(),editTextLinkNaObjavu.getText().toString()));
 
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
