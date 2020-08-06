@@ -40,7 +40,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@drawable/no_active_shape"
-            android:text="Molitva"
+            android:text="Od srca k Srcu"
             android:textSize="16sp"
             android:textColor="@color/active"
             android:fontFamily="@font/open_sans_regular"

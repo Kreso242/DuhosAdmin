@@ -18,7 +18,7 @@
         android:id="@+id/opceMolitveIcon"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/ic_opcemolitveno"
+        android:src="@drawable/ic_molitve_i_poboznosti_noactive"
         android:layout_toRightOf="@+id/poboznostiIcon"
         android:layout_margin="10dp"></ImageView>
     <ImageView
@@ -38,7 +38,7 @@
         android:id="@+id/poboznostiIcon"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/ic_poboznostino"
+        android:src="@drawable/ic_svjedocanstva_noactive"
         android:layout_toRightOf="@+id/nadahnucaIcon"
         android:layout_margin="10dp"></ImageView>
 </RelativeLayout>
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/no_active_shape"
-            android:hint="Naziv molitve"
+            android:hint="Naziv molitve/teksta"
             android:inputType="textCapSentences"
             android:singleLine="true"
             android:padding="15dp"

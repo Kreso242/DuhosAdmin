@@ -282,6 +282,25 @@ public class KalendarFragment extends Fragment {
                 }
             }
         });
+        editTextVrijeme.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() != 0) {
+                    editTextVrijeme.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
+                } else {
+                    editTextVrijeme.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
+                }
+            }
+        });
         editTextOpis.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -319,6 +338,8 @@ public class KalendarFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
+
+
     }
 
     private void checkInternetConnection() {

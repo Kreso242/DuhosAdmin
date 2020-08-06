@@ -91,7 +91,7 @@ public class MolitvaFragment extends Fragment {
         mActionBar.setBackgroundDrawable(this.getResources().getDrawable(R.color.background));
         View view=mActionBar.getCustomView();
         actionBarImage=view.findViewById(R.id.prijavaImage);
-        actionBarImage.setImageDrawable(getActivity().getDrawable(R.drawable.ic_molitvanaslov));
+        actionBarImage.setImageDrawable(getActivity().getDrawable(R.drawable.ic_odsrcaksrcu));
         idiNatrag=view.findViewById(R.id.idiNatrag);
         idiNatrag.setVisibility(View.VISIBLE);
         idiNatrag.setOnClickListener(new View.OnClickListener() {
@@ -440,10 +440,10 @@ public class MolitvaFragment extends Fragment {
                 marijanskaMolitvaFlag = false;
                 nadahnucaFlag = false;
                 svjedocanstvaFlag = false;
-                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_opcemolitveactive));
+                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_molitve_i_poboznosti_active));
                 marijanskaMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_blazenadjevicamarijano));
                 nadahnucaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_nadahnucano));
-                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_poboznostino));
+                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_svjedocanstva_noactive));
             }
         });
         marijanskaMolitvaIcon.setOnClickListener(new View.OnClickListener() {
@@ -454,10 +454,10 @@ public class MolitvaFragment extends Fragment {
                 marijanskaMolitvaFlag = true;
                 nadahnucaFlag = false;
                 svjedocanstvaFlag = false;
-                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_opcemolitveno));
+                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_molitve_i_poboznosti_noactive));
                 marijanskaMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_blazenadjevicamarijaactive));
                 nadahnucaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_nadahnucano));
-                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_poboznostino));
+                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_svjedocanstva_noactive));
             }
         });
         nadahnucaIcon.setOnClickListener(new View.OnClickListener() {
@@ -468,10 +468,10 @@ public class MolitvaFragment extends Fragment {
                 marijanskaMolitvaFlag = false;
                 nadahnucaFlag = true;
                 svjedocanstvaFlag = false;
-                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_opcemolitveno));
+                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_molitve_i_poboznosti_noactive));
                 marijanskaMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_blazenadjevicamarijano));
                 nadahnucaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_nadahnucaactive));
-                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_poboznostino));
+                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_svjedocanstva_noactive));
             }
         });
         poboznostiIcon.setOnClickListener(new View.OnClickListener() {
@@ -482,10 +482,10 @@ public class MolitvaFragment extends Fragment {
                 marijanskaMolitvaFlag = false;
                 nadahnucaFlag = false;
                 svjedocanstvaFlag = true;
-                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_opcemolitveno));
+                opceMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_molitve_i_poboznosti_noactive));
                 marijanskaMolitvaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_blazenadjevicamarijano));
                 nadahnucaIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_nadahnucano));
-                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_poboznostiactive));
+                poboznostiIcon.setImageDrawable(getActivity().getDrawable(R.drawable.ic_svjedocanstva_active));
             }
         });
     }
