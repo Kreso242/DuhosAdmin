@@ -89,7 +89,7 @@ public class PitanjaFragment extends Fragment {
                             idNumberInt++;
                             if (snapshot.child("Pitanje").getValue() == null) {
                             } else {
-                                final String pitanje = snapshot.child("Pitanje").getValue().toString().toLowerCase();
+                                final String pitanje = snapshot.child("Pitanje").getValue().toString().toLowerCase().trim();
                                 listaPitanja.add(pitanje);
                                 idLista.add(idNumberInt - 1);
                             }
@@ -114,40 +114,51 @@ public class PitanjaFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    String pitanje=editTextPitanje.getText().toString().toLowerCase();
-                    idPostojecegPitanja=0;
-                    for(int i=0; i<brojPitanja;i++){
-                        if(listaPitanja.get(i).equals(pitanje)){
-                            vecPostojiPitanjeFlag=true;
-                            idPostojecegPitanja=idLista.get(i);
+                    String pitanje = editTextPitanje.getText().toString().toLowerCase().trim();
+                    String odgovor = editTextOdgovor.getText().toString().toLowerCase().trim();
+
+                    if (pitanje.equals(" ") || pitanje.equals("")) {
+                        Toast.makeText(getContext(), "Unesi pitanje!", Toast.LENGTH_SHORT).show();
+                    } else if (odgovor.equals("") || odgovor.equals(" ")) {
+                        Toast.makeText(getContext(), "Unesi odgovor!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        idPostojecegPitanja = 0;
+                        for (int i = 0; i < brojPitanja; i++) {
+                            if (listaPitanja.get(i).equals(pitanje)) {
+                                vecPostojiPitanjeFlag = true;
+                                idPostojecegPitanja = idLista.get(i);
+                            }
                         }
-                    }
 
-                    if (editTextPitanje.length() == 0 || editTextOdgovor.length() == 0 ) {
-                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(vecPostojiPitanjeFlag){
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Upozorenje")
-                                .setMessage("Unešeno pitanje već postoji u bazi! Ukoliko želite izbrisati ovo pitanje te dodati navedeno odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
-                                .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        databaseReference.child(String.valueOf(idPostojecegPitanja)).removeValue();
-                                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pitanja(editTextPitanje.getText().toString(),editTextOdgovor.getText().toString()));
-                                        vecPostojiPitanjeFlag=false;
-                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
-                                    }
-                                })
-                                .setNegativeButton("Natrag",null)
-                                .setIcon(R.drawable.duhos_logo)
-                                .show();
-                    }
-                    else {
-                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pitanja(editTextPitanje.getText().toString(),editTextOdgovor.getText().toString()));
+                        if (editTextPitanje.length() == 0 || editTextOdgovor.length() == 0) {
+                            Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
+                        } else if (vecPostojiPitanjeFlag) {
+                            new AlertDialog.Builder(getContext())
+                                    .setTitle("Upozorenje")
+                                    .setMessage("Unešeno pitanje već postoji u bazi! Ukoliko želite izbrisati ovo pitanje te dodati navedeno odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
+                                    .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            databaseReference.child(String.valueOf(idPostojecegPitanja)).removeValue();
+                                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pitanja(editTextPitanje.getText().toString(), editTextOdgovor.getText().toString()));
+                                            vecPostojiPitanjeFlag = false;
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                                        }
+                                    })
+                                    .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            vecPostojiPitanjeFlag = false;
+                                        }
+                                    })
+                                    .setIcon(R.drawable.duhos_logo)
+                                    .show();
+                        } else {
+                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pitanja(editTextPitanje.getText().toString(), editTextOdgovor.getText().toString()));
 
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                        }
                     }
                 }
             });

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -96,9 +97,9 @@ public class NovostiFragment extends Fragment {
                             idNumberInt++;
                         if (snapshot.child("Naslov").getValue() == null) {
                         } else {
-                            final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase();
-                            final String medij = snapshot.child("Medij").getValue().toString().toLowerCase();
-                            final String link = snapshot.child("Link").getValue().toString().toLowerCase();
+                            final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase().trim();
+                            final String medij = snapshot.child("Medij").getValue().toString().toLowerCase().trim();
+                            final String link = snapshot.child("Link").getValue().toString().toLowerCase().trim();
 
                             listaNaslova.add(naslov);
                             listaMedija.add(medij);
@@ -127,45 +128,57 @@ public class NovostiFragment extends Fragment {
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String naslov=editTextNaslov.getText().toString().toLowerCase();
-                    String medij=editTextMedij.getText().toString().toLowerCase();
-                    String link=editTextLinkNaObjavu.getText().toString().toLowerCase();
+                    String naslov = editTextNaslov.getText().toString().toLowerCase().trim();
+                    String medij = editTextMedij.getText().toString().toLowerCase().trim();
+                    String link = editTextLinkNaObjavu.getText().toString().toLowerCase().trim();
 
-                    idPostojeceNovosti=0;
-                    for(int i=0; i<brojNaslova;i++){
-                        if(listaNaslova.get(i).equals(naslov) && listaMedija.get(i).equals(medij) && listaLinkova.get(i).equals(link)){
-                            vecPostojiNovostFlag=true;
-                            idPostojeceNovosti=idLista.get(i);
+                    if (naslov.equals(" ") || naslov.equals("")) {
+                        Toast.makeText(getContext(), "Unesi naslov novosti!", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                    if (URLUtil.isValidUrl(link)) {
+                        idPostojeceNovosti = 0;
+                        for (int i = 0; i < brojNaslova; i++) {
+                            if (listaNaslova.get(i).equals(naslov) && listaMedija.get(i).equals(medij) && listaLinkova.get(i).equals(link)) {
+                                vecPostojiNovostFlag = true;
+                                idPostojeceNovosti = idLista.get(i);
+                            }
                         }
-                    }
 
 
-                    if (editTextNaslov.length() == 0 || editTextMedij.length() == 0 || editTextLinkNaObjavu.length() == 0 || editTextSadrzaj.length() == 0) {
-                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(vecPostojiNovostFlag){
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Upozorenje")
-                                .setMessage("Unešena novost već postoji u bazi! Ukoliko želite izbrisati tu novost te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
-                                .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        databaseReference.child(String.valueOf(idPostojeceNovosti)).removeValue();
-                                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(),editTextSadrzaj.getText().toString(),editTextMedij.getText().toString(),editTextLinkNaObjavu.getText().toString()));
-                                        vecPostojiNovostFlag=false;
-                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
-                                    }
-                                })
-                                .setNegativeButton("Natrag",null)
-                                .setIcon(R.drawable.duhos_logo)
-                                .show();
-                    }
-                    else {
-                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(),editTextSadrzaj.getText().toString(),editTextMedij.getText().toString(),editTextLinkNaObjavu.getText().toString()));
+                        if (editTextNaslov.length() == 0 || editTextMedij.length() == 0 || editTextLinkNaObjavu.length() == 0 || editTextSadrzaj.length() == 0) {
+                            Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
+                        } else if (vecPostojiNovostFlag) {
+                            new AlertDialog.Builder(getContext())
+                                    .setTitle("Upozorenje")
+                                    .setMessage("Unešena novost već postoji u bazi! Ukoliko želite izbrisati tu novost te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
+                                    .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            databaseReference.child(String.valueOf(idPostojeceNovosti)).removeValue();
+                                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(), editTextSadrzaj.getText().toString(), editTextMedij.getText().toString(), editTextLinkNaObjavu.getText().toString()));
+                                            vecPostojiNovostFlag = false;
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                                        }
+                                    })
+                                    .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            vecPostojiNovostFlag = false;
+                                        }
+                                    })
+                                    .setIcon(R.drawable.duhos_logo)
+                                    .show();
+                        } else {
+                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(), editTextSadrzaj.getText().toString(), editTextMedij.getText().toString(), editTextLinkNaObjavu.getText().toString()));
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
-                    }
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                        }
+                    } else
+                        Toast.makeText(getContext(), "Link je neispravan, kontaktirajte nadležnu osobu!", Toast.LENGTH_SHORT).show();
                 }
+                }
+
             });
             return novostiFragmentView;
         }

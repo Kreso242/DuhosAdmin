@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -95,7 +96,7 @@ public class PjesmaricaFragment extends Fragment {
 
                             if(snapshot.child("Naslov").getValue()==null ){ }
                             else{
-                                final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase();
+                                final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase().trim();
                                 listaNaslova.add(naslov);
                                 idLista.add(idNumberInt-1);
                             }
@@ -122,53 +123,61 @@ public class PjesmaricaFragment extends Fragment {
             objaviButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(editTextIzvodjac.length()==0)
+                    if (editTextIzvodjac.length() == 0)
                         editTextIzvodjac.setText("Nepoznati izvođač");
-                    if(editTextLinkZaAkorde.length()==0)
+                    if (editTextLinkZaAkorde.length() == 0)
                         editTextLinkZaAkorde.setText("Link je nedostupan");
-                    String naslov=editTextNazivPjesme.getText().toString().toLowerCase();
-                    String izvodjac=editTextIzvodjac.getText().toString().toLowerCase();
-                    String link=editTextLinkZaAkorde.getText().toString().toLowerCase();
-                    idPostojecePjesme=0;
-                    for(int i=0; i<brojNaslova;i++){
-                        if(listaNaslova.get(i).equals(naslov) ){
-                            vecPostojiPjesmaFlag=true;
-                            idPostojecePjesme=idLista.get(i);
+                    String naslov = editTextNazivPjesme.getText().toString().toLowerCase().trim();
+                    String izvodjac = editTextIzvodjac.getText().toString().toLowerCase().trim();
+                    String link = editTextLinkZaAkorde.getText().toString().toLowerCase().trim();
+
+                    if (naslov.equals(" ") || naslov.equals("")) {
+                        Toast.makeText(getContext(), "Unesi naziv pjesme!", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                    if (URLUtil.isValidUrl(link)) {
+                        idPostojecePjesme = 0;
+                        for (int i = 0; i < brojNaslova; i++) {
+                            if (listaNaslova.get(i).equals(naslov)) {
+                                vecPostojiPjesmaFlag = true;
+                                idPostojecePjesme = idLista.get(i);
+                            }
                         }
-                    }
 
-                    if (editTextNazivPjesme.length() == 0  || editTextTesktPjesme.length() == 0) {
-                        Toast.makeText(getContext(), "Unesi podatke u ponuđena polja! Jedino izvođač i link mogu ostati nepoznati! ", Toast.LENGTH_SHORT).show();
-                    }
+                        if (editTextNazivPjesme.length() == 0 || editTextTesktPjesme.length() == 0) {
+                            Toast.makeText(getContext(), "Unesi podatke u ponuđena polja! Jedino izvođač i link mogu ostati nepoznati! ", Toast.LENGTH_SHORT).show();
+                        } else if (vecPostojiPjesmaFlag) {
 
-                    else if(vecPostojiPjesmaFlag){
+                            new AlertDialog.Builder(getContext())
+                                    .setTitle("Upozorenje")
+                                    .setMessage("Unešena pjesma već postoji u bazi! Ukoliko želite izbrisati tu pjesmu te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
+                                    .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            databaseReference.child(String.valueOf(idPostojecePjesme)).removeValue();
+                                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(), editTextIzvodjac.getText().toString(), editTextTesktPjesme.getText().toString(), editTextLinkZaAkorde.getText().toString()));
+                                            vecPostojiPjesmaFlag = false;
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                                        }
+                                    })
+                                    .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            vecPostojiPjesmaFlag = false;
+                                        }
+                                    })
+                                    .setIcon(R.drawable.duhos_logo)
+                                    .show();
 
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Upozorenje")
-                                .setMessage("Unešena pjesma već postoji u bazi! Ukoliko želite izbrisati tu pjesmu te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
-                                .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        databaseReference.child(String.valueOf(idPostojecePjesme)).removeValue();
-                                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(),editTextIzvodjac.getText().toString(),editTextTesktPjesme.getText().toString(),editTextLinkZaAkorde.getText().toString()));
-                                        vecPostojiPjesmaFlag=false;
-                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
-                                    }
-                                })
-                                .setNegativeButton("Natrag",null)
-                                .setIcon(R.drawable.duhos_logo)
-                                .show();
 
+                        } else {
+                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(), editTextIzvodjac.getText().toString(), editTextTesktPjesme.getText().toString(), editTextLinkZaAkorde.getText().toString()));
 
-
-
-                    }
-                    else {
-                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(),editTextIzvodjac.getText().toString(),editTextTesktPjesme.getText().toString(),editTextLinkZaAkorde.getText().toString()));
-
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
-                    }
-
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
+                        }
+                    } else
+                        Toast.makeText(getContext(), "Link je neispravan, kontaktirajte nadležnu osobu!", Toast.LENGTH_SHORT).show();
+                }
                 }
             });
             return pjesmaricaFragmentView;

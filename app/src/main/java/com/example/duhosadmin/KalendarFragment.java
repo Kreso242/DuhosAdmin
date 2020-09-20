@@ -103,9 +103,9 @@ public class KalendarFragment extends Fragment {
                             idNumberInt++;
                             if (snapshot.child("Naslov").getValue() == null) {
                             } else {
-                                final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase();
-                                final String datum = snapshot.child("Datum").getValue().toString().toLowerCase();
-                                final String vrijeme = snapshot.child("Vrijeme").getValue().toString().toLowerCase();
+                                final String naslov = snapshot.child("Naslov").getValue().toString().toLowerCase().trim();
+                                final String datum = snapshot.child("Datum").getValue().toString().toLowerCase().trim();
+                                final String vrijeme = snapshot.child("Vrijeme").getValue().toString().toLowerCase().trim();
 
                                 listaNaslova.add(naslov);
                                 listaDatuma.add(datum);
@@ -180,23 +180,29 @@ public class KalendarFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    String naziv=editTextNaziv.getText().toString().toLowerCase();
-                    String datum=editTextDatum.getText().toString().toLowerCase();
-                    String vrijeme=editTextVrijeme.getText().toString().toLowerCase();
-
-                    idPostojecegDogadjaja=0;
-                    for(int i=0; i<brojNaslova;i++){
-                        if(listaNaslova.get(i).equals(naziv) && listaDatuma.get(i).equals(datum) && listaVremena.get(i).equals(vrijeme)){
-                            vecPostojiDogadjajFlag=true;
-                            idPostojecegDogadjaja=idLista.get(i);
+                    String naziv = editTextNaziv.getText().toString().toLowerCase().trim();
+                    String datum = editTextDatum.getText().toString().toLowerCase().trim();
+                    String vrijeme = editTextVrijeme.getText().toString().toLowerCase().trim();
+                    String opis=editTextOpis.getText().toString().toLowerCase().trim();
+                    if (naziv.equals(" ") || naziv.equals("")) {
+                        Toast.makeText(getContext(), "Unesi naziv događaja!", Toast.LENGTH_SHORT).show();
+                    }
+                    if (opis.equals(" ") || opis.equals("")) {
+                        Toast.makeText(getContext(), "Unesi opis događaja!", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                    idPostojecegDogadjaja = 0;
+                    for (int i = 0; i < brojNaslova; i++) {
+                        if (listaNaslova.get(i).equals(naziv) && listaDatuma.get(i).equals(datum) && listaVremena.get(i).equals(vrijeme)) {
+                            vecPostojiDogadjajFlag = true;
+                            idPostojecegDogadjaja = idLista.get(i);
                         }
                     }
 
 
                     if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextVrijeme.length() == 0 || editTextOpis.length() == 0 || editTextLokacija.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(vecPostojiDogadjajFlag){
+                    } else if (vecPostojiDogadjajFlag) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Upozorenje")
                                 .setMessage("Unešeni događaj već postoji u bazi! Ukoliko želite izbrisati taj događaj te dodati navedeni odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
@@ -204,19 +210,24 @@ public class KalendarFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         databaseReference.child(String.valueOf(idPostojecegDogadjaja)).removeValue();
-                                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Dogadjaj(editTextNaziv.getText().toString(),editTextOpis.getText().toString(),editTextDatum.getText().toString(),editTextVrijeme.getText().toString(),editTextLokacija.getText().toString()));
-                                        vecPostojiDogadjajFlag=false;
+                                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Dogadjaj(editTextNaziv.getText().toString(), editTextOpis.getText().toString(), editTextDatum.getText().toString(), editTextVrijeme.getText().toString(), editTextLokacija.getText().toString()));
+                                        vecPostojiDogadjajFlag = false;
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                                     }
                                 })
-                                .setNegativeButton("Natrag",null)
+                                .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        vecPostojiDogadjajFlag = false;
+                                    }
+                                })
                                 .setIcon(R.drawable.duhos_logo)
                                 .show();
-                    }
-                    else {
-                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Dogadjaj(editTextNaziv.getText().toString(),editTextOpis.getText().toString(),editTextDatum.getText().toString(),editTextVrijeme.getText().toString(),editTextLokacija.getText().toString()));
+                    } else {
+                        databaseReference.child(String.valueOf(idNumberInt)).setValue(new Dogadjaj(editTextNaziv.getText().toString(), editTextOpis.getText().toString(), editTextDatum.getText().toString(), editTextVrijeme.getText().toString(), editTextLokacija.getText().toString()));
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                     }
+                }
                 }
             });
             return kalendarFragmentView;

@@ -117,12 +117,21 @@ public class MolitvaFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    String naziv=editTextNazivMolitve.getText().toString().toLowerCase();
+                    String naziv=editTextNazivMolitve.getText().toString().toLowerCase().trim();
+                    String tekst=editTextTekstMolitve.getText().toString().toLowerCase().trim();
+
                     idPostojeceMolitveMarijanske=0;
                     idPostojeceMolitveNadahnuca=0;
                     idPostojeceMolitveOpce=0;
                     idPostojeceMolitveSvjedocanstva=0;
 
+                    if(naziv.equals(" ") || naziv.equals("") ){
+                        Toast.makeText(getContext(),"Unesi naziv molitve!",Toast.LENGTH_SHORT).show();
+                    }
+                    else if(tekst.equals("") || tekst.equals(" ")){
+                        Toast.makeText(getContext(),"Unesi tekst molitve!",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
                     for(int i=0; i<brojNazivaMarijanske;i++){
                         if(listaNazivaMarijanske.get(i).equals(naziv)){
                             vecPostojiMolitvaMarijanskeFlag=true;
@@ -175,7 +184,15 @@ public class MolitvaFragment extends Fragment {
                                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                                             }
                                         })
-                                        .setNegativeButton("Natrag",null)
+                                        .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                vecPostojiMolitvaOpceFlag=false;
+                                                vecPostojiMolitvaMarijanskeFlag=false;
+                                                vecPostojiMolitvaNadahnucaFlag=false;
+                                                vecPostojiMolitvaSvjedocanstvaFlag=false;
+                                            }
+                                        })
                                         .setIcon(R.drawable.duhos_logo)
                                         .show();
                             }
@@ -201,7 +218,15 @@ public class MolitvaFragment extends Fragment {
                                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                                             }
                                         })
-                                        .setNegativeButton("Natrag",null)
+                                        .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                vecPostojiMolitvaOpceFlag=false;
+                                                vecPostojiMolitvaMarijanskeFlag=false;
+                                                vecPostojiMolitvaNadahnucaFlag=false;
+                                                vecPostojiMolitvaSvjedocanstvaFlag=false;
+                                            }
+                                        })
                                         .setIcon(R.drawable.duhos_logo)
                                         .show();
                             }
@@ -214,7 +239,7 @@ public class MolitvaFragment extends Fragment {
                             if(vecPostojiMolitvaNadahnucaFlag){
                                 new AlertDialog.Builder(getContext())
                                         .setTitle("Upozorenje")
-                                        .setMessage("Unešena molitva već postoji u bazi! Ukoliko želite izbrisati ovu molitvu te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
+                                        .setMessage("Unešeno nadahnuće već postoji u bazi! Ukoliko želite izbrisati ovo nadahnuće te dodati navedeno odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
                                         .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -227,7 +252,15 @@ public class MolitvaFragment extends Fragment {
                                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                                             }
                                         })
-                                        .setNegativeButton("Natrag",null)
+                                        .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                vecPostojiMolitvaOpceFlag=false;
+                                                vecPostojiMolitvaMarijanskeFlag=false;
+                                                vecPostojiMolitvaNadahnucaFlag=false;
+                                                vecPostojiMolitvaSvjedocanstvaFlag=false;
+                                            }
+                                        })
                                         .setIcon(R.drawable.duhos_logo)
                                         .show();
                             }
@@ -240,7 +273,7 @@ public class MolitvaFragment extends Fragment {
                             if (vecPostojiMolitvaSvjedocanstvaFlag) {
                                 new AlertDialog.Builder(getContext())
                                         .setTitle("Upozorenje")
-                                        .setMessage("Unešena molitva već postoji u bazi! Ukoliko želite izbrisati ovu molitvu te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
+                                        .setMessage("Unešeno svjedočanstvo već postoji u bazi! Ukoliko želite izbrisati ovo svjedočanstvo te dodati navedeno odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")
                                         .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -253,7 +286,15 @@ public class MolitvaFragment extends Fragment {
                                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                                             }
                                         })
-                                        .setNegativeButton("Natrag", null)
+                                        .setNegativeButton("Natrag", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                vecPostojiMolitvaOpceFlag=false;
+                                                vecPostojiMolitvaMarijanskeFlag=false;
+                                                vecPostojiMolitvaNadahnucaFlag=false;
+                                                vecPostojiMolitvaSvjedocanstvaFlag=false;
+                                            }
+                                        })
                                         .setIcon(R.drawable.duhos_logo)
                                         .show();
                             } else {
@@ -263,7 +304,8 @@ public class MolitvaFragment extends Fragment {
                         }
                     }
                 }
-            });
+            }
+        });
             return molitvaFragmentView;
         }
         else {
@@ -332,7 +374,7 @@ public class MolitvaFragment extends Fragment {
                         idNumberOpceInt++;
                         if (snapshot.child("Naziv").getValue() == null) {
                         } else {
-                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase();
+                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase().trim();
                             listaNazivaOpce.add(naziv);
                             idListaOpce.add(idNumberOpceInt - 1);
                         }
@@ -358,7 +400,7 @@ public class MolitvaFragment extends Fragment {
                         idNumberMarijanskeInt++;
                         if (snapshot.child("Naziv").getValue() == null) {
                         } else {
-                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase();
+                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase().trim();
                             listaNazivaMarijanske.add(naziv);
                             idListaMarijanske.add(idNumberMarijanskeInt - 1);
                         }
@@ -384,7 +426,7 @@ public class MolitvaFragment extends Fragment {
                         idNumberNadahnucaInt++;
                         if (snapshot.child("Naziv").getValue() == null) {
                         } else {
-                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase();
+                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase().trim();
                             listaNazivaNadahnuca.add(naziv);
                             idListaNadahnuca.add(idNumberNadahnucaInt - 1);
                         }
@@ -410,7 +452,7 @@ public class MolitvaFragment extends Fragment {
                         idNumberSvjedocanstvaInt++;
                         if (snapshot.child("Naziv").getValue() == null) {
                         } else {
-                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase();
+                            final String naziv = snapshot.child("Naziv").getValue().toString().toLowerCase().trim();
                             listaNazivaSvjedocanstva.add(naziv);
                             idListaSvjedocanstva.add(idNumberSvjedocanstvaInt - 1);
                         }
