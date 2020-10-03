@@ -117,10 +117,9 @@ public class PitanjaFragment extends Fragment {
                     String pitanje = editTextPitanje.getText().toString().toLowerCase().trim();
                     String odgovor = editTextOdgovor.getText().toString().toLowerCase().trim();
 
-                    if (pitanje.equals(" ") || pitanje.equals("")) {
-                        Toast.makeText(getContext(), "Unesi pitanje!", Toast.LENGTH_SHORT).show();
-                    } else if (odgovor.equals("") || odgovor.equals(" ")) {
-                        Toast.makeText(getContext(), "Unesi odgovor!", Toast.LENGTH_SHORT).show();
+
+                    if (editTextPitanje.length() == 0 || editTextOdgovor.length() == 0) {
+                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
                         idPostojecegPitanja = 0;
                         for (int i = 0; i < brojPitanja; i++) {
@@ -130,9 +129,7 @@ public class PitanjaFragment extends Fragment {
                             }
                         }
 
-                        if (editTextPitanje.length() == 0 || editTextOdgovor.length() == 0) {
-                            Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                        } else if (vecPostojiPitanjeFlag) {
+                        if (vecPostojiPitanjeFlag) {
                             new AlertDialog.Builder(getContext())
                                     .setTitle("Upozorenje")
                                     .setMessage("Unešeno pitanje već postoji u bazi! Ukoliko želite izbrisati ovo pitanje te dodati navedeno odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")

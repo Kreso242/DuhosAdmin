@@ -184,12 +184,8 @@ public class KalendarFragment extends Fragment {
                     String datum = editTextDatum.getText().toString().toLowerCase().trim();
                     String vrijeme = editTextVrijeme.getText().toString().toLowerCase().trim();
                     String opis=editTextOpis.getText().toString().toLowerCase().trim();
-                    if (naziv.equals(" ") || naziv.equals("")) {
-                        Toast.makeText(getContext(), "Unesi naziv događaja!", Toast.LENGTH_SHORT).show();
-                    }
-                    if (opis.equals(" ") || opis.equals("")) {
-                        Toast.makeText(getContext(), "Unesi opis događaja!", Toast.LENGTH_SHORT).show();
-                    }
+                    if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextVrijeme.length() == 0 || editTextOpis.length() == 0 || editTextLokacija.length() == 0) {
+                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();}
                     else {
                     idPostojecegDogadjaja = 0;
                     for (int i = 0; i < brojNaslova; i++) {
@@ -198,11 +194,7 @@ public class KalendarFragment extends Fragment {
                             idPostojecegDogadjaja = idLista.get(i);
                         }
                     }
-
-
-                    if (editTextNaziv.length() == 0 || editTextDatum.length() == 0 || editTextVrijeme.length() == 0 || editTextOpis.length() == 0 || editTextLokacija.length() == 0) {
-                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                    } else if (vecPostojiDogadjajFlag) {
+                    if (vecPostojiDogadjajFlag) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Upozorenje")
                                 .setMessage("Unešeni događaj već postoji u bazi! Ukoliko želite izbrisati taj događaj te dodati navedeni odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")

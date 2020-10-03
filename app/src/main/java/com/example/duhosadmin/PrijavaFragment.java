@@ -31,8 +31,8 @@ public class PrijavaFragment extends Fragment {
     ImageView actionBarImage;
     ImageButton idiNatrag,osvjeziButton;
     private View connectionFragmentView,prijavaFragmentView;
-    String userID="";
-    String userPassword="";
+    private String userID="duhosAdmin20";
+    private String userPassword="adminDuhos20";
     private boolean connectionFlag=false;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

@@ -125,11 +125,8 @@ public class MolitvaFragment extends Fragment {
                     idPostojeceMolitveOpce=0;
                     idPostojeceMolitveSvjedocanstva=0;
 
-                    if(naziv.equals(" ") || naziv.equals("") ){
-                        Toast.makeText(getContext(),"Unesi naziv molitve!",Toast.LENGTH_SHORT).show();
-                    }
-                    else if(tekst.equals("") || tekst.equals(" ")){
-                        Toast.makeText(getContext(),"Unesi tekst molitve!",Toast.LENGTH_SHORT).show();
+                    if (editTextNazivMolitve.length() == 0 || editTextTekstMolitve.length() == 0) {
+                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     }
                     else {
                     for(int i=0; i<brojNazivaMarijanske;i++){
@@ -160,11 +157,7 @@ public class MolitvaFragment extends Fragment {
                         }
                     }
 
-
-                    if (editTextNazivMolitve.length() == 0 || editTextTekstMolitve.length() == 0) {
-                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(!opceMolitvaFlag && !marijanskaMolitvaFlag && !nadahnucaFlag && !svjedocanstvaFlag)
+                    if(!opceMolitvaFlag && !marijanskaMolitvaFlag && !nadahnucaFlag && !svjedocanstvaFlag)
                         Toast.makeText(getContext(), "Odaberi kategoriju molitve!", Toast.LENGTH_SHORT).show();
                     else {
                         if(opceMolitvaFlag) {

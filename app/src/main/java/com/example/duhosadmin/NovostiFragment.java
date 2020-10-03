@@ -132,8 +132,8 @@ public class NovostiFragment extends Fragment {
                     String medij = editTextMedij.getText().toString().toLowerCase().trim();
                     String link = editTextLinkNaObjavu.getText().toString().toLowerCase().trim();
 
-                    if (naslov.equals(" ") || naslov.equals("")) {
-                        Toast.makeText(getContext(), "Unesi naslov novosti!", Toast.LENGTH_SHORT).show();
+                    if (editTextNaslov.length() == 0 || editTextMedij.length() == 0 || editTextLinkNaObjavu.length() == 0 || editTextSadrzaj.length() == 0) {
+                        Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
                     } else {
 
                     if (URLUtil.isValidUrl(link)) {
@@ -144,11 +144,7 @@ public class NovostiFragment extends Fragment {
                                 idPostojeceNovosti = idLista.get(i);
                             }
                         }
-
-
-                        if (editTextNaslov.length() == 0 || editTextMedij.length() == 0 || editTextLinkNaObjavu.length() == 0 || editTextSadrzaj.length() == 0) {
-                            Toast.makeText(getContext(), "Unesi podatke u sva ponuđena polja!", Toast.LENGTH_SHORT).show();
-                        } else if (vecPostojiNovostFlag) {
+                        if (vecPostojiNovostFlag) {
                             new AlertDialog.Builder(getContext())
                                     .setTitle("Upozorenje")
                                     .setMessage("Unešena novost već postoji u bazi! Ukoliko želite izbrisati tu novost te dodati navedenu odaberite \"Uredu\", ukoliko to ne želite odaberite \"Natrag\"!")

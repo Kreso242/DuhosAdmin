@@ -131,11 +131,10 @@ public class PjesmaricaFragment extends Fragment {
                     String izvodjac = editTextIzvodjac.getText().toString().toLowerCase().trim();
                     String link = editTextLinkZaAkorde.getText().toString().toLowerCase().trim();
 
-                    if (naslov.equals(" ") || naslov.equals("")) {
-                        Toast.makeText(getContext(), "Unesi naziv pjesme!", Toast.LENGTH_SHORT).show();
+                    if (editTextNazivPjesme.length() == 0 || editTextTesktPjesme.length() == 0) {
+                        Toast.makeText(getContext(), "Unesi podatke u ponuđena polja! Jedino izvođač i link mogu ostati nepoznati! ", Toast.LENGTH_SHORT).show();
                     } else {
-
-                    if (URLUtil.isValidUrl(link)) {
+                    if (URLUtil.isValidUrl(link) || link.equals("") || link.equals("link je nedostupan")) {
                         idPostojecePjesme = 0;
                         for (int i = 0; i < brojNaslova; i++) {
                             if (listaNaslova.get(i).equals(naslov)) {
@@ -143,10 +142,7 @@ public class PjesmaricaFragment extends Fragment {
                                 idPostojecePjesme = idLista.get(i);
                             }
                         }
-
-                        if (editTextNazivPjesme.length() == 0 || editTextTesktPjesme.length() == 0) {
-                            Toast.makeText(getContext(), "Unesi podatke u ponuđena polja! Jedino izvođač i link mogu ostati nepoznati! ", Toast.LENGTH_SHORT).show();
-                        } else if (vecPostojiPjesmaFlag) {
+                        if (vecPostojiPjesmaFlag) {
 
                             new AlertDialog.Builder(getContext())
                                     .setTitle("Upozorenje")
