@@ -270,7 +270,7 @@ public class MolitvaFragment extends Fragment {
                                         .setPositiveButton("Uredu", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                svjedocanstvaReference.child(String.valueOf(idPostojeceMolitveNadahnuca)).removeValue();
+                                                svjedocanstvaReference.child(String.valueOf(idPostojeceMolitveSvjedocanstva)).removeValue();
                                                 svjedocanstvaReference.child(String.valueOf(idNumberSvjedocanstvaInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(), date.toString(), editTextTekstMolitve.getText().toString()));
                                                 vecPostojiMolitvaOpceFlag = false;
                                                 vecPostojiMolitvaMarijanskeFlag = false;
