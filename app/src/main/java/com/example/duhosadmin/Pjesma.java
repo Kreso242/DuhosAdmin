@@ -8,13 +8,24 @@ public class Pjesma {
     String bend;
     String tekstPjesme;
     String link;
+    String youtubeLink;
 
-    public Pjesma(String naslov, String bend, String tekstPjesme, String link) {
+    public Pjesma(String naslov, String bend, String tekstPjesme, String link, String youtubeLink) {
         this.naslov = naslov;
         this.bend = bend;
         this.tekstPjesme=tekstPjesme;
         this.link=link;
+        this.youtubeLink=youtubeLink;
     }
+    @PropertyName("YouTube")
+    public String getYoutubeLink() {
+        return youtubeLink;
+    }
+    @PropertyName("YouTube")
+    public void setYoutubeLink(String link) {
+        this.youtubeLink = youtubeLink;
+    }
+
     @PropertyName("Link")
     public String getLink() {
         return link;

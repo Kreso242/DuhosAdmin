@@ -49,6 +49,8 @@ public class PjesmaricaFragment extends Fragment {
     EditText editTextIzvodjac;
     EditText editTextLinkZaAkorde;
     EditText editTextTesktPjesme;
+    EditText editTextYouTubeLink;
+
     DatabaseReference databaseReference;
     private String idNumberString;
     private int idNumberInt;
@@ -116,6 +118,7 @@ public class PjesmaricaFragment extends Fragment {
             editTextIzvodjac = pjesmaricaFragmentView.findViewById(R.id.editTextIzvodjac);
             editTextLinkZaAkorde = pjesmaricaFragmentView.findViewById(R.id.editTextLinkZaAkorde);
             editTextTesktPjesme = pjesmaricaFragmentView.findViewById(R.id.editTextTesktPjesme);
+            editTextYouTubeLink = pjesmaricaFragmentView.findViewById(R.id.editTextYouTubeLink);
 
             objaviButton = pjesmaricaFragmentView.findViewById(R.id.objaviButton);
             onTextChange();
@@ -127,14 +130,18 @@ public class PjesmaricaFragment extends Fragment {
                         editTextIzvodjac.setText("Nepoznati izvođač");
                     if (editTextLinkZaAkorde.length() == 0)
                         editTextLinkZaAkorde.setText("Link je nedostupan");
+                    if (editTextYouTubeLink.length() == 0)
+                        editTextLinkZaAkorde.setText("YouTube link je nedostupan");
+
                     String naslov = editTextNazivPjesme.getText().toString().toLowerCase().trim();
                     String izvodjac = editTextIzvodjac.getText().toString().toLowerCase().trim();
                     String link = editTextLinkZaAkorde.getText().toString().toLowerCase().trim();
+                    String youtube = editTextYouTubeLink.getText().toString().toLowerCase().trim();
 
                     if (editTextNazivPjesme.length() == 0 || editTextTesktPjesme.length() == 0) {
                         Toast.makeText(getContext(), "Unesi podatke u ponuđena polja! Jedino izvođač i link mogu ostati nepoznati! ", Toast.LENGTH_SHORT).show();
                     } else {
-                    if (URLUtil.isValidUrl(link) || link.equals("") || link.equals("link je nedostupan")) {
+                    if ((URLUtil.isValidUrl(link) || link.equals("") || link.equals("link je nedostupan")) || (URLUtil.isValidUrl(youtube) || youtube.equals("") || youtube.equals("YouTube link je nedostupan"))) {
                         idPostojecePjesme = 0;
                         for (int i = 0; i < brojNaslova; i++) {
                             if (listaNaslova.get(i).equals(naslov)) {
@@ -151,7 +158,7 @@ public class PjesmaricaFragment extends Fragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             databaseReference.child(String.valueOf(idPostojecePjesme)).removeValue();
-                                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(), editTextIzvodjac.getText().toString(), editTextTesktPjesme.getText().toString(), editTextLinkZaAkorde.getText().toString()));
+                                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(), editTextIzvodjac.getText().toString(), editTextTesktPjesme.getText().toString(), editTextLinkZaAkorde.getText().toString(),editTextYouTubeLink.getText().toString()));
                                             vecPostojiPjesmaFlag = false;
                                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                                         }
@@ -167,12 +174,12 @@ public class PjesmaricaFragment extends Fragment {
 
 
                         } else {
-                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(), editTextIzvodjac.getText().toString(), editTextTesktPjesme.getText().toString(), editTextLinkZaAkorde.getText().toString()));
+                            databaseReference.child(String.valueOf(idNumberInt)).setValue(new Pjesma(editTextNazivPjesme.getText().toString(), editTextIzvodjac.getText().toString(), editTextTesktPjesme.getText().toString(), editTextLinkZaAkorde.getText().toString(),editTextYouTubeLink.getText().toString()));
 
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                         }
                     } else
-                        Toast.makeText(getContext(), "Link je neispravan, kontaktirajte nadležnu osobu!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Jedan od upisanih linkova je neispravan, kontaktirajte nadležnu osobu!", Toast.LENGTH_SHORT).show();
                 }
                 }
             });
@@ -261,6 +268,25 @@ public class PjesmaricaFragment extends Fragment {
                     editTextLinkZaAkorde.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
                 } else {
                     editTextLinkZaAkorde.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        editTextYouTubeLink.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    editTextYouTubeLink.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.active_shape));
+                } else {
+                    editTextYouTubeLink.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.no_active_shape));
                 }
             }
 
