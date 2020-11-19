@@ -24,33 +24,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
+
+import static android.content.ContentValues.TAG;
+
 public class PrijavaFragment extends Fragment {
 
-    EditText user,password;
+    EditText user, password;
     ImageButton prijaviSe;
     ImageView actionBarImage;
-    ImageButton idiNatrag,osvjeziButton;
-    private View connectionFragmentView,prijavaFragmentView;
-    private String userID="duhosAdmin20";
-    private String userPassword="adminDuhos20";
-    private boolean connectionFlag=false;
+    ImageButton idiNatrag, osvjeziButton;
+    private View connectionFragmentView, prijavaFragmentView;
+    private String userID = "duhosAdmin20";
+    private String userPassword = "adminDuhos20";
+    private boolean connectionFlag = false;
+    private FirebaseAuth mAuth;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ActionBar mActionBar =  ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         mActionBar.setCustomView(R.layout.toolbar);
         mActionBar.setBackgroundDrawable(this.getResources().getDrawable(R.color.background));
-        View view=mActionBar.getCustomView();
-        actionBarImage=view.findViewById(R.id.prijavaImage);
+        View view = mActionBar.getCustomView();
+        actionBarImage = view.findViewById(R.id.prijavaImage);
         actionBarImage.setImageDrawable(getActivity().getDrawable(R.drawable.ic_prijavanaslov));
-        idiNatrag=view.findViewById(R.id.idiNatrag);
+        idiNatrag = view.findViewById(R.id.idiNatrag);
         idiNatrag.setVisibility(View.GONE);
         checkInternetConnection();
+        mAuth = FirebaseAuth.getInstance();
 
-        if(connectionFlag==true) {
+        if (connectionFlag) {
             prijavaFragmentView = inflater.inflate(R.layout.fragment_prijava, container, false);
 
 
@@ -111,19 +122,19 @@ public class PrijavaFragment extends Fragment {
                     if (!userInput.equals(userID) || !userPassword.equals(passwordInput))
                         Toast.makeText(getContext(), "Pogrešan Korisnički ID ili lozinka!\nPokušaj ponovno!", Toast.LENGTH_SHORT).show();
                     else {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new KreirajFragment()).addToBackStack("kreirajFragment").commit();
+                        connectToFirebase();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new KreirajFragment()).addToBackStack("kreirajFragment").commit();
                     }
                 }
             });
             return prijavaFragmentView;
-        }
-        else{
+        } else {
             connectionFragmentView = inflater.inflate(R.layout.no_internet_connection_fragment, container, false);
-            osvjeziButton=connectionFragmentView.findViewById(R.id.osvjeziButton);
+            osvjeziButton = connectionFragmentView.findViewById(R.id.osvjeziButton);
             osvjeziButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PrijavaFragment()).addToBackStack("prijavaFragment").commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new PrijavaFragment()).addToBackStack("prijavaFragment").commit();
                 }
             });
             return connectionFragmentView;
@@ -131,25 +142,39 @@ public class PrijavaFragment extends Fragment {
     }
 
     private void checkInternetConnection() {
-        ConnectivityManager connectivityManager=(ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork=connectivityManager.getActiveNetworkInfo();
-        if(null!=activeNetwork){
-            if(activeNetwork.getType()==ConnectivityManager.TYPE_WIFI){
-                connectionFlag=true;
-            }
-            else if(activeNetwork.getType()==ConnectivityManager.TYPE_MOBILE){
-                connectionFlag=true;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        if (null != activeNetwork) {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                connectionFlag = true;
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                connectionFlag = true;
             }
 
-        }
-        else
-        {
-            connectionFlag=false;
+        } else {
+            connectionFlag = false;
         }
     }
 
-    public String getEmojiByUnicode(int unicode){
+    public String getEmojiByUnicode(int unicode) {
         return new String(Character.toChars(unicode));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    void connectToFirebase() {
+        String email = "duhos.com@gmail.com";
+        String password = userPassword;
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithEmail:success");
+                        } else {
+                            Log.d(TAG, "signInWithEmail:fail");
+                        }
+                    }
+                });
     }
 
 }
