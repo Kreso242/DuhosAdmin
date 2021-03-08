@@ -166,8 +166,9 @@ public class NovostiFragment extends Fragment {
                                     .setIcon(R.drawable.duhos_logo)
                                     .show();
                         } else {
+                            databaseReference.child(String.valueOf(idLista.get(0))).removeValue();
+                            idLista.remove(0);
                             databaseReference.child(String.valueOf(idNumberInt)).setValue(new Medij(editTextNaslov.getText().toString(), editTextSadrzaj.getText().toString(), editTextMedij.getText().toString(), editTextLinkNaObjavu.getText().toString()));
-
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                         }
                     } else

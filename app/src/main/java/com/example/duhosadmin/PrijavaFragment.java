@@ -40,8 +40,8 @@ public class PrijavaFragment extends Fragment {
     ImageView actionBarImage;
     ImageButton idiNatrag, osvjeziButton;
     private View connectionFragmentView, prijavaFragmentView;
-    private String userID = "duhosAdmin20";
-    private String userPassword = "adminDuhos20";
+    private String userID = "duhosAdmin20"; //duhosAdmin20
+    private String userPassword = "adminDuhos20"; //adminDuhos20
     private boolean connectionFlag = false;
     private FirebaseAuth mAuth;
 

@@ -190,6 +190,8 @@ public class MolitvaFragment extends Fragment {
                                         .show();
                             }
                             else{
+                                opceReference.child(String.valueOf(idListaOpce.get(0))).removeValue();
+                                idListaOpce.remove(0);
                                 opceReference.child(String.valueOf(idNumberOpceInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(),date.toString(),editTextTekstMolitve.getText().toString()));
                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                             }
@@ -224,6 +226,8 @@ public class MolitvaFragment extends Fragment {
                                         .show();
                             }
                             else{
+                                marijanskeReference.child(String.valueOf(idListaMarijanske.get(0))).removeValue();
+                                idListaMarijanske.remove(0);
                                 marijanskeReference.child(String.valueOf(idNumberMarijanskeInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(),date.toString(),editTextTekstMolitve.getText().toString()));
                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                             }
@@ -258,6 +262,8 @@ public class MolitvaFragment extends Fragment {
                                         .show();
                             }
                             else{
+                                nadahnucaReference.child(String.valueOf(idListaNadahnuca.get(0))).removeValue();
+                                idListaNadahnuca.remove(0);
                                 nadahnucaReference.child(String.valueOf(idNumberNadahnucaInt)).setValue(new Molitva(editTextNazivMolitve.getText().toString(),date.toString(),editTextTekstMolitve.getText().toString()));
                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter, new VratiSeFragment()).commit();
                             }
